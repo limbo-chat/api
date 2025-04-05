@@ -1,5 +1,7 @@
 {
+	"include": ["src"],
 	"compilerOptions": {
+		"outDir": "dist",
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"target": "es2022",
@@ -12,9 +14,9 @@
 		"noUncheckedIndexedAccess": true,
 		"noImplicitOverride": true,
 		"module": "NodeNext",
-		"outDir": "dist",
 		"sourceMap": true,
 		"declaration": true,
+		"emitDeclarationOnly": true,
 		"lib": ["es2022", "dom", "dom.iterable"]
 	}
 }
