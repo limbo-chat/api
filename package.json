@@ -1,0 +1,14 @@
+{
+	"name": "limbo",
+	"type": "module",
+	"version": "0.0.1",
+	"keywords": [
+		"llmbo",
+		"llm",
+		"ai"
+	],
+	"devDependencies": {
+		"prettier": "^3.5.3",
+		"typescript": "^5.8.2"
+	}
+}
