@@ -12,6 +12,7 @@ export interface BaseSetting {
 export interface TextSetting extends BaseSetting {
 	type: "text";
 	defaultValue?: string;
+	placeholder?: string;
 	/**
 	 * The type of text input to display
 	 *

@@ -1,0 +1,56 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "string",
+			"description": "Unique identifier for the plugin",
+			"examples": ["openai", "llama"]
+		},
+		"name": {
+			"type": "string",
+			"description": "Name of the plugin",
+			"examples": ["OpenAI", "Llama"]
+		},
+		"description": {
+			"type": "string",
+			"description": "Description of the plugin",
+			"examples": ["OpenAI integration", "Llama model integration"]
+		},
+		"version": {
+			"type": "string",
+			"description": "Version of the plugin (semver)"
+		},
+		"minApiVersion": {
+			"type": "string",
+			"description": "Minimum limbo API version required for the plugin (semver)"
+		},
+		"author": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "Name of the author",
+					"examples": ["John Doe", "Jane Smith"]
+				},
+				"email": {
+					"type": "string",
+					"description": "Email of the author",
+					"examples": ["email@me.com"]
+				}
+			},
+			"required": ["name", "email"]
+		},
+		"files": {
+			"type": "object",
+			"properties": {
+				"js": {
+					"type": "string",
+					"description": "The path to the main JS plugin file",
+					"examples": ["./dist/plugin.js"]
+				}
+			}
+		}
+	},
+	"required": ["id", "name", "description", "version", "minApiVersion", "author", "files"]
+}

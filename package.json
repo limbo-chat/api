@@ -9,7 +9,8 @@
 	],
 	"files": [
 		"dist",
-		"package.json"
+		"package.json",
+		"schemas"
 	],
 	"types": "./dist/index.d.ts",
 	"scripts": {
