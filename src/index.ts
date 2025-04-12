@@ -5,8 +5,12 @@ export interface Notification {
 
 export interface BaseSetting {
 	id: string;
-	title: string;
-	helpText?: string;
+
+	/** The label for the setting */
+	label: string;
+
+	/** A short description of the setting */
+	description?: string;
 }
 
 export interface TextSetting extends BaseSetting {
