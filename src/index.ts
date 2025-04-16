@@ -4,6 +4,7 @@ export interface Notification {
 }
 
 export interface BaseSetting {
+	/** The unique ID of the setting */
 	id: string;
 
 	/** The label for the setting */
@@ -40,9 +41,16 @@ export interface BooleanSetting extends BaseSetting {
 export type Setting = TextSetting | BooleanSetting;
 
 export interface LLM {
+	/* the unique ID of the LLM */
 	id: string;
-	title: string;
+
+	/* the name of the LLM */
+	name: string;
+
+	/* a description about the LLM. Qualties, things it's good at... */
 	description: string;
+
+	/* a function that returns generated text from the model */
 	generateText: () => Promise<string>;
 }
 
@@ -69,7 +77,6 @@ export declare namespace notifications {
 	/**
 	 * Shows a notification to the user
 	 */
-
 	export function show(notification: Notification): void;
 }
 
