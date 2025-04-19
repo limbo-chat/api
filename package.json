@@ -7,15 +7,15 @@
 		"llm",
 		"ai"
 	],
+	"scripts": {
+		"build": "tsc"
+	},
 	"files": [
 		"dist",
 		"package.json",
 		"schemas"
 	],
 	"types": "./dist/index.d.ts",
-	"scripts": {
-		"build": "tsc"
-	},
 	"devDependencies": {
 		"prettier": "^3.5.3",
 		"typescript": "^5.8.2"

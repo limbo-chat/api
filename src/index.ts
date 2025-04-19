@@ -40,6 +40,12 @@ export interface BooleanSetting extends BaseSetting {
 
 export type Setting = TextSetting | BooleanSetting;
 
+export declare namespace LLM {
+	interface GenerateTextOptions {
+		onChunk: (chunk: string) => void;
+	}
+}
+
 export interface LLM {
 	/* the unique ID of the LLM */
 	id: string;
@@ -51,7 +57,7 @@ export interface LLM {
 	description: string;
 
 	/* a function that returns generated text from the model */
-	generateText: () => Promise<string>;
+	generateText: (opts: LLM.GenerateTextOptions) => void | Promise<void>;
 }
 
 export declare namespace settings {
