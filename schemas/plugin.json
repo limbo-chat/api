@@ -21,9 +21,9 @@
 			"type": "string",
 			"description": "Version of the plugin (semver)"
 		},
-		"minApiVersion": {
+		"apiVersion": {
 			"type": "string",
-			"description": "Minimum limbo API version required for the plugin (semver)"
+			"description": "limbo API version the plugin supports (semver range)"
 		},
 		"author": {
 			"type": "object",
@@ -52,5 +52,5 @@
 			}
 		}
 	},
-	"required": ["id", "name", "description", "version", "minApiVersion", "author", "files"]
+	"required": ["id", "name", "description", "version", "apiVersion", "author", "files"]
 }

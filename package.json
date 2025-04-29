@@ -16,7 +16,11 @@
 		"schemas"
 	],
 	"types": "./dist/index.d.ts",
+	"peerDependencies": {
+		"@sinclair/typebox": "^0.34.33"
+	},
 	"devDependencies": {
+		"@sinclair/typebox": "^0.34.33",
 		"prettier": "^3.5.3",
 		"typescript": "^5.8.2"
 	}
