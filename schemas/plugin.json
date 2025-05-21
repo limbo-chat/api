@@ -40,17 +40,7 @@
 				}
 			},
 			"required": ["name", "email"]
-		},
-		"files": {
-			"type": "object",
-			"properties": {
-				"js": {
-					"type": "string",
-					"description": "The path to the main JS plugin file",
-					"examples": ["./dist/plugin.js"]
-				}
-			}
 		}
 	},
-	"required": ["id", "name", "description", "version", "apiVersion", "author", "files"]
+	"required": ["id", "name", "description", "version", "apiVersion", "author"]
 }
