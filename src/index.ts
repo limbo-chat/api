@@ -138,6 +138,11 @@ export declare namespace notifications {
 	export function show(notification: Notification): void;
 }
 
+export declare namespace storage {
+	export function set(key: string, value: any): void;
+	export function get<T>(key: string): T | undefined;
+}
+
 export declare namespace models {
 	/**
 	 * Gets an LLM by its ID
@@ -208,6 +213,7 @@ export declare namespace chats {
 export interface API {
 	notifications: typeof notifications;
 	settings: typeof settings;
+	storage: typeof storage;
 	models: typeof models;
 	chats: typeof chats;
 }
