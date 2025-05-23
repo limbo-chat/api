@@ -1,4 +1,5 @@
 import type * as typebox from "@sinclair/typebox";
+import type * as react from "react";
 
 export interface Chat {
 	id: string;
@@ -18,19 +19,10 @@ export interface PromptMessage {
 	content: string;
 }
 
-export interface Tool<TSchema extends typebox.TSchema = any> {
-	id: string;
-	description: string;
-	schema: TSchema;
-	execute: (args: typebox.Static<TSchema>) => void | Promise<void>;
-}
-
 export interface PromptBuilder {
 	getMessages(): PromptMessage[];
 	prependMessage(message: PromptMessage): void;
 	appendMessage(message: PromptMessage): void;
-	getTools(): Tool[];
-	addTool<TSchema extends typebox.TSchema>(tool: Tool<TSchema>): void;
 }
 
 export interface Notification {
@@ -159,6 +151,61 @@ export declare namespace models {
 	// potentially add a way to register embedding models in the future
 }
 
+export interface PendingToolCall<TArgs = unknown> {
+	status: "pending";
+	arguments: TArgs;
+}
+
+export interface FinishedToolCall<TArgs = unknown, TResult = unknown> {
+	status: "finished";
+	arguments: TArgs;
+	result: TResult;
+}
+
+export interface ErrorToolCall {
+	status: "error";
+	error: string | null;
+}
+
+export interface ToolComponentProps<TArgs = unknown, TResult = unknown> {
+	toolCall: PendingToolCall<TArgs> | FinishedToolCall<TArgs, TResult> | ErrorToolCall;
+}
+
+export type ToolComponent<TArgs = unknown, TResult = unknown> = react.FC<
+	ToolComponentProps<TArgs, TResult>
+>;
+
+export interface Tool<TInputSchema extends typebox.TSchema = any, TResult = unknown> {
+	/** The ID of the tool */
+	id: string;
+
+	/** A description of the tool */
+	description: string;
+
+	/** The arguments schema for the tool */
+	schema: TInputSchema;
+
+	/** The function that executes the tool */
+	execute: (args: typebox.Static<TInputSchema>) => TResult | Promise<TResult>;
+
+	/** An optional react component that will render the tool in the chat log */
+	renderer?: ToolComponent<typebox.Static<TInputSchema>, TResult>;
+}
+
+export declare namespace tools {
+	/**
+	 * Registers a new tool that can be used
+	 */
+	export function register<TInputSchema extends typebox.TSchema, TResult>(
+		tool: Tool<TInputSchema, TResult>
+	): void;
+
+	/**
+	 * Unregisters a tool from the app
+	 */
+	export function unregister(toolId: string): void;
+}
+
 export declare namespace chats {
 	export function get(chatId: string): Promise<Chat | null>;
 
@@ -198,17 +245,11 @@ export declare namespace chats {
 	export function getMessages(opts: getMessages.Options): Promise<ChatMessage[]>;
 }
 
-/* consider something like 'services' that can be registered and used by multiple plugins (e.g, knowledgebase or something) */
-// export declare namespace services {
-// 	export function get<T>(serviceId: string): T | undefined;
-
-// 	export function register(serviceId: string, value: any): void;
-// }
-
 export interface API {
 	notifications: typeof notifications;
 	settings: typeof settings;
 	models: typeof models;
+	tools: typeof tools;
 	chats: typeof chats;
 }
 
