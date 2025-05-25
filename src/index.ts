@@ -344,7 +344,7 @@ export interface OnAfterChatCreatedArgs {
 	chatId: string;
 }
 
-export interface OnBeforeGenerateTextArgs {
+export interface OnBeforeAssistantResponseArgs {
 	chatId: string;
 	promptBuilder: ChatPromptBuilder;
 }
@@ -353,5 +353,5 @@ export interface Plugin {
 	onActivate?(): void | Promise<void>;
 	onDeactivate?(): void | Promise<void>;
 	onAfterChatCreated?(args: OnAfterChatCreatedArgs): void | Promise<void>;
-	onBeforeGenerateText?(args: OnBeforeGenerateTextArgs): void | Promise<void>;
+	onBeforeAssistantResponse?(args: OnBeforeAssistantResponseArgs): void | Promise<void>;
 }
