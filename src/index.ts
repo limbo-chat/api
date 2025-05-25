@@ -340,7 +340,7 @@ export interface API {
 	chats: typeof chats;
 }
 
-export interface OnAfterChatCreatedArgs {
+export interface OnChatCreatedArgs {
 	chatId: string;
 }
 
@@ -352,6 +352,6 @@ export interface OnBeforeAssistantResponseArgs {
 export interface Plugin {
 	onActivate?(): void | Promise<void>;
 	onDeactivate?(): void | Promise<void>;
-	onAfterChatCreated?(args: OnAfterChatCreatedArgs): void | Promise<void>;
+	onChatCreated?(args: OnChatCreatedArgs): void | Promise<void>;
 	onBeforeAssistantResponse?(args: OnBeforeAssistantResponseArgs): void | Promise<void>;
 }
