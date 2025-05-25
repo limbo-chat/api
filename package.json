@@ -18,7 +18,7 @@
 	"types": "./dist/index.d.ts",
 	"peerDependencies": {
 		"@sinclair/typebox": "^0.34.33",
-		"@types/react": "^19.1.5"
+		"@types/react": "^19.0.12"
 	},
 	"devDependencies": {
 		"@sinclair/typebox": "^0.34.33",

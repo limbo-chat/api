@@ -1,27 +1,84 @@
 import type * as typebox from "@sinclair/typebox";
 import type * as react from "react";
 
+export interface CustomImage {
+	source: string;
+	alt?: string;
+}
+
+export type AppIcon = "info" | "warning" | "search" | "check" | "file" | "folder" | "person";
+
+export type IconLike = AppIcon | CustomImage;
+
 export interface Chat {
 	id: string;
 	name: string;
 	createdAt: string;
 }
 
+export interface TextChatMessageNode {
+	type: "text";
+	text: string;
+}
+
+interface BaseToolCallChatMessageNode {
+	type: "tool_call";
+	toolId: string;
+	callId: string;
+}
+
+export interface SuccessToolCallChatMessageNode extends BaseToolCallChatMessageNode {
+	status: "success";
+	result: string;
+}
+
+export interface ErrorToolCallChatMessageNode extends BaseToolCallChatMessageNode {
+	status: "error";
+	error: string | null;
+}
+
+export type ToolCallChatMessageNode = SuccessToolCallChatMessageNode | ErrorToolCallChatMessageNode;
+
+export type ChatMessageNode = TextChatMessageNode | ToolCallChatMessageNode;
+
 export interface ChatMessage {
 	id: string;
 	role: "user" | "assistant";
-	content: string;
+	content: ChatMessageNode[];
 	createdAt: string;
 }
 
-export interface PromptMessage {
-	role: "user" | "assistant" | "system";
+export interface TextPromptMessage {
+	role: "system" | "user" | "assistant";
 	content: string;
 }
 
-export interface PromptBuilder {
+export interface ToolPromptMessage {
+	role: "tool";
+	toolId: string;
+	callId: string;
+	arguments: Record<string, unknown>;
+	result: string;
+}
+
+export type PromptMessage = TextPromptMessage | ToolPromptMessage;
+
+export interface ChatPromptBuilder {
+	/** Returns the system prompt as a string  */
+	getSystemPrompt(): string;
+	/** Overrides the system prompt */
+	setSystemPrompt(prompt: string): void;
+	/** Prepends text to the system prompt */
+	prependToSystemPrompt(message: string): void;
+	/** Appends text to the system prompt */
+	appendToSystemPrompt(message: string): void;
+	/** Returns the prompt messages */
 	getMessages(): PromptMessage[];
-	prependMessage(message: PromptMessage): void;
+	/**
+	 * Appends a new message to the prompt messages
+	 *
+	 * This is usually used to build a conversation
+	 */
 	appendMessage(message: PromptMessage): void;
 }
 
@@ -67,23 +124,27 @@ export interface BooleanSetting extends BaseSetting {
 
 export interface LLMSetting extends BaseSetting {
 	type: "llm";
-
-	// consider the following
-	// supportsStructuredOutputs?: boolean;
-	// supportsTools?: boolean;
 }
 
 export type Setting = TextSetting | BooleanSetting | LLMSetting;
 
 export declare namespace LLM {
-	export interface GenerateTextArgs {
-		promptBuilder: PromptBuilder;
-		onChunk: (chunk: string) => void;
+	export interface Tool {
+		id: string;
+		description: string;
+		schema: object;
 	}
 
-	export interface GenerateObjectArgs {
-		promptBuilder: PromptBuilder;
-		schema: any;
+	export interface ToolCall {
+		toolId: string;
+		arguments: Record<string, unknown>;
+	}
+
+	export interface StreamTextArgs {
+		tools: Tool[];
+		messages: PromptMessage[];
+		onText: (text: string) => void;
+		onToolCall: (opts: ToolCall) => void;
 	}
 }
 
@@ -97,11 +158,10 @@ export interface LLM {
 	/* a description about the LLM. Qualties, things it's good at... */
 	description: string;
 
-	/* a function that returns generated text from the model */
-	generateText: (opts: LLM.GenerateTextArgs) => void | Promise<void>;
+	/* a function that generated streamed text from the model */
+	streamText: (opts: LLM.StreamTextArgs) => void | Promise<void>;
 
 	/* a function that returns generated text from the model */
-	generateObject?: (opts: LLM.GenerateObjectArgs) => any | Promise<any>;
 }
 
 export declare namespace settings {
@@ -151,31 +211,50 @@ export declare namespace models {
 	// potentially add a way to register embedding models in the future
 }
 
-export interface PendingToolCall<TArgs = unknown> {
+interface BaseToolCall<TArgs = unknown> {
+	toolId: string;
+	callId: string;
+	arguments: TArgs;
+}
+
+export interface PendingToolCall<TArgs = unknown> extends BaseToolCall<TArgs> {
 	status: "pending";
-	arguments: TArgs;
 }
 
-export interface FinishedToolCall<TArgs = unknown, TResult = unknown> {
-	status: "finished";
-	arguments: TArgs;
-	result: TResult;
+export interface SuccessToolCall<TArgs = unknown> extends BaseToolCall<TArgs> {
+	status: "success";
+	result: string;
 }
 
-export interface ErrorToolCall {
+export interface ErrorToolCall<TArgs = unknown> extends BaseToolCall<TArgs> {
 	status: "error";
 	error: string | null;
 }
 
-export interface ToolComponentProps<TArgs = unknown, TResult = unknown> {
-	toolCall: PendingToolCall<TArgs> | FinishedToolCall<TArgs, TResult> | ErrorToolCall;
+export type ToolCall<TArgs = unknown> =
+	| PendingToolCall<TArgs>
+	| SuccessToolCall<TArgs>
+	| ErrorToolCall<TArgs>;
+
+export type ToolIconFnArgs<TArgs = unknown> = {
+	toolCall: ToolCall<TArgs>;
+};
+
+export type ToolIconFn = <TArgs = unknown>(args: ToolIconFnArgs<TArgs>) => IconLike;
+
+export interface ToolRendererProps<TArgs = unknown> {
+	toolCall: ToolCall<TArgs>;
 }
 
-export type ToolComponent<TArgs = unknown, TResult = unknown> = react.FC<
-	ToolComponentProps<TArgs, TResult>
->;
+export type ToolRenderer<TArgs = unknown> = react.FC<ToolRendererProps<TArgs>>;
 
-export interface Tool<TInputSchema extends typebox.TSchema = any, TResult = unknown> {
+export interface ToolIconRendererProps<TArgs = unknown> {
+	toolCall: ToolCall<TArgs>;
+}
+
+export type ToolIconRenderer<TArgs = unknown> = react.FC<ToolIconRendererProps<TArgs>>;
+
+export interface Tool<TInputSchema extends typebox.TSchema = any> {
 	/** The ID of the tool */
 	id: string;
 
@@ -186,19 +265,27 @@ export interface Tool<TInputSchema extends typebox.TSchema = any, TResult = unkn
 	schema: TInputSchema;
 
 	/** The function that executes the tool */
-	execute: (args: typebox.Static<TInputSchema>) => TResult | Promise<TResult>;
+	execute: (args: typebox.Static<TInputSchema>) => string | Promise<string>;
+
+	/**
+	 * The icon to render for the tool.
+	 *
+	 * This is obsolete if the tool has a custom renderer.
+	 */
+	icon?: IconLike | ToolIconFn;
+
+	// todo more considerations
+	// renderIcon?: ToolIconRenderer<typebox.Static<TInputSchema>>;
 
 	/** An optional react component that will render the tool in the chat log */
-	renderer?: ToolComponent<typebox.Static<TInputSchema>, TResult>;
+	renderer?: ToolRenderer<typebox.Static<TInputSchema>>;
 }
 
 export declare namespace tools {
 	/**
 	 * Registers a new tool that can be used
 	 */
-	export function register<TInputSchema extends typebox.TSchema, TResult>(
-		tool: Tool<TInputSchema, TResult>
-	): void;
+	export function register<TInputSchema extends typebox.TSchema>(tool: Tool<TInputSchema>): void;
 
 	/**
 	 * Unregisters a tool from the app
@@ -259,7 +346,7 @@ export interface OnAfterChatCreatedArgs {
 
 export interface OnBeforeGenerateTextArgs {
 	chatId: string;
-	promptBuilder: PromptBuilder;
+	promptBuilder: ChatPromptBuilder;
 }
 
 export interface Plugin {
