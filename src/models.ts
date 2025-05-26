@@ -1,6 +1,8 @@
 import type { PromptMessage } from "./chat.js";
 
 export declare namespace LLM {
+	export type Capability = "tool_calling" | "structured_outputs";
+
 	export interface Tool {
 		id: string;
 		description: string;
@@ -30,10 +32,11 @@ export interface LLM {
 	/* a description about the LLM. Qualties, things it's good at... */
 	description: string;
 
-	/* a function that generated streamed text from the model */
-	streamText: (opts: LLM.StreamTextArgs) => void | Promise<void>;
+	/* The capabilities of the LLM */
+	capabilities: LLM.Capability[];
 
-	/* a function that returns generated text from the model */
+	/* a function to stream text from the LLM */
+	streamText: (opts: LLM.StreamTextArgs) => void | Promise<void>;
 }
 
 export declare namespace models {
@@ -53,6 +56,4 @@ export declare namespace models {
 	 * Unregisters an llm from the app
 	 */
 	export function unregisterLLM(llmId: string): void;
-
-	// potentially add a way to register embedding models in the future
 }

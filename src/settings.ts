@@ -1,3 +1,5 @@
+import type { LLM } from "./models.js";
+
 interface BaseSetting {
 	/** The unique ID of the setting */
 	id: string;
@@ -35,6 +37,7 @@ export interface BooleanSetting extends BaseSetting {
 
 export interface LLMSetting extends BaseSetting {
 	type: "llm";
+	capabilities?: LLM.Capability[];
 }
 
 export type Setting = TextSetting | BooleanSetting | LLMSetting;
