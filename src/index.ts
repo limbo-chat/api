@@ -1,5 +1,6 @@
 export * from "./common.js";
 export * from "./notifications.js";
+export * from "./commands.js";
 export * from "./settings.js";
 export * from "./tools.js";
 export * from "./models.js";

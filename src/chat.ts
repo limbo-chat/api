@@ -4,35 +4,37 @@ export interface Chat {
 	createdAt: string;
 }
 
-export interface TextChatMessageNode {
-	type: "text";
-	text: string;
+export interface ChatMessageNode<TType extends string = string, TData = Record<string, unknown>> {
+	type: TType;
+	data: TData;
 }
 
-interface BaseToolCallChatMessageNode {
-	type: "tool_call";
-	toolId: string;
-	callId: string;
-}
+export type TextChatMessageNode = ChatMessageNode<
+	"text",
+	{
+		content: string;
+	}
+>;
 
-export interface SuccessToolCallChatMessageNode extends BaseToolCallChatMessageNode {
-	status: "success";
-	result: string;
-}
+export type MarkdownChatMessageNode = ChatMessageNode<
+	"markdown",
+	{
+		content: string;
+	}
+>;
 
-export interface ErrorToolCallChatMessageNode extends BaseToolCallChatMessageNode {
-	status: "error";
-	error: string | null;
-}
+export type ToolCallChatMessageNode = ChatMessageNode<"tool_call", { tool_call_id: string }>;
 
-export type ToolCallChatMessageNode = SuccessToolCallChatMessageNode | ErrorToolCallChatMessageNode;
-
-export type ChatMessageNode = TextChatMessageNode | ToolCallChatMessageNode;
+export type CoreChatMessageNode =
+	| TextChatMessageNode
+	| MarkdownChatMessageNode
+	| ToolCallChatMessageNode
+	| ChatMessageNode;
 
 export interface ChatMessage {
 	id: string;
 	role: "user" | "assistant";
-	content: ChatMessageNode[];
+	content: CoreChatMessageNode[];
 	createdAt: string;
 }
 

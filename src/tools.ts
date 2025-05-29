@@ -2,48 +2,50 @@ import type * as react from "react";
 import type * as typebox from "@sinclair/typebox";
 import type { IconLike } from "./common.js";
 
-interface BaseToolCall<TArgs = unknown> {
+export type AnyToolCallArgs = Record<string, unknown>;
+
+interface BaseToolCall<TArgs = AnyToolCallArgs> {
+	id: string;
 	toolId: string;
-	callId: string;
 	arguments: TArgs;
 }
 
-export interface PendingToolCall<TArgs = unknown> extends BaseToolCall<TArgs> {
+export interface PendingToolCall<TArgs = AnyToolCallArgs> extends BaseToolCall<TArgs> {
 	status: "pending";
 }
 
-export interface SuccessToolCall<TArgs = unknown> extends BaseToolCall<TArgs> {
+export interface SuccessToolCall<TArgs = AnyToolCallArgs> extends BaseToolCall<TArgs> {
 	status: "success";
 	result: string;
 }
 
-export interface ErrorToolCall<TArgs = unknown> extends BaseToolCall<TArgs> {
+export interface ErrorToolCall<TArgs = AnyToolCallArgs> extends BaseToolCall<TArgs> {
 	status: "error";
 	error: string | null;
 }
 
-export type ToolCall<TArgs = unknown> =
+export type ToolCall<TArgs = AnyToolCallArgs> =
 	| PendingToolCall<TArgs>
 	| SuccessToolCall<TArgs>
 	| ErrorToolCall<TArgs>;
 
-export type ToolIconFnArgs<TArgs = unknown> = {
+export type ToolIconFnArgs<TArgs = AnyToolCallArgs> = {
 	toolCall: ToolCall<TArgs>;
 };
 
-export type ToolIconFn = <TArgs = unknown>(args: ToolIconFnArgs<TArgs>) => IconLike;
+export type ToolIconFn = <TArgs = AnyToolCallArgs>(args: ToolIconFnArgs<TArgs>) => IconLike;
 
-export interface ToolRendererProps<TArgs = unknown> {
+export interface ToolRendererProps<TArgs = AnyToolCallArgs> {
 	toolCall: ToolCall<TArgs>;
 }
 
-export type ToolRenderer<TArgs = unknown> = react.FC<ToolRendererProps<TArgs>>;
+export type ToolRenderer<TArgs = AnyToolCallArgs> = react.FC<ToolRendererProps<TArgs>>;
 
-export interface ToolIconRendererProps<TArgs = unknown> {
+export interface ToolIconRendererProps<TArgs = AnyToolCallArgs> {
 	toolCall: ToolCall<TArgs>;
 }
 
-export type ToolIconRenderer<TArgs = unknown> = react.FC<ToolIconRendererProps<TArgs>>;
+export type ToolIconRenderer<TArgs = AnyToolCallArgs> = react.FC<ToolIconRendererProps<TArgs>>;
 
 export interface Tool<TInputSchema extends typebox.TSchema = any> {
 	/** The ID of the tool */
