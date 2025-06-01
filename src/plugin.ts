@@ -14,5 +14,6 @@ export interface Plugin {
 	onDeactivate?(): void | Promise<void>;
 	onChatCreated?(args: OnChatCreatedArgs): void | Promise<void>;
 	onChatDeleted?(chatId: string): void | Promise<void>;
+	onChatsDeleted?(chatIds: string[]): void | Promise<void>;
 	onBeforeAssistantResponse?(args: OnBeforeAssistantResponseArgs): void | Promise<void>;
 }
