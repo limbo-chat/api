@@ -15,6 +15,7 @@ export declare namespace LLM {
 	}
 
 	export interface StreamTextArgs {
+		abortSignal: AbortSignal;
 		tools: Tool[];
 		messages: PromptMessage[];
 		onText: (text: string) => void;
