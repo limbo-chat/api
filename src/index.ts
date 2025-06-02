@@ -4,7 +4,7 @@ export * from "./commands.js";
 export * from "./settings.js";
 export * from "./tools.js";
 export * from "./models.js";
-export * from "./chat.js";
+export * from "./chats.js";
 export * from "./ui.js";
 export * from "./api.js";
 export * from "./plugin.js";

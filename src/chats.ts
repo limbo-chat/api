@@ -4,7 +4,7 @@ export interface Chat {
 	createdAt: string;
 }
 
-export interface ChatMessageNode<TType extends string = string, TData = Record<string, unknown>> {
+export interface ChatMessageNode<TType extends string, TData extends Record<string, unknown>> {
 	type: TType;
 	data: TData;
 }
@@ -25,51 +25,19 @@ export type MarkdownChatMessageNode = ChatMessageNode<
 
 export type ToolCallChatMessageNode = ChatMessageNode<"tool_call", { tool_call_id: string }>;
 
+export type AnyChatMessageNode = ChatMessageNode<string, Record<string, unknown>>;
+
 export type CoreChatMessageNode =
 	| TextChatMessageNode
 	| MarkdownChatMessageNode
 	| ToolCallChatMessageNode
-	| ChatMessageNode;
+	| AnyChatMessageNode;
 
 export interface ChatMessage {
 	id: string;
 	role: "user" | "assistant";
 	content: CoreChatMessageNode[];
 	createdAt: string;
-}
-
-export interface TextPromptMessage {
-	role: "system" | "user" | "assistant";
-	content: string;
-}
-
-export interface ToolPromptMessage {
-	role: "tool";
-	toolId: string;
-	callId: string;
-	arguments: Record<string, unknown>;
-	result: string;
-}
-
-export type PromptMessage = TextPromptMessage | ToolPromptMessage;
-
-export interface ChatPromptBuilder {
-	/** Returns the system prompt as a string  */
-	getSystemPrompt(): string;
-	/** Overrides the system prompt */
-	setSystemPrompt(prompt: string): void;
-	/** Prepends text to the system prompt */
-	prependToSystemPrompt(message: string): void;
-	/** Appends text to the system prompt */
-	appendToSystemPrompt(message: string): void;
-	/** Returns the prompt messages */
-	getMessages(): PromptMessage[];
-	/**
-	 * Appends a new message to the prompt messages
-	 *
-	 * This is usually used to build a conversation
-	 */
-	appendMessage(message: PromptMessage): void;
 }
 
 export declare namespace chats {

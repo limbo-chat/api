@@ -1,4 +1,57 @@
-import type { PromptMessage } from "./chat.js";
+import type { ErrorToolCall, SuccessToolCall } from "./tools.js";
+
+export interface TextChatPromptNode {
+	type: "text";
+	data: {
+		/** The text content */
+		content: string;
+	};
+}
+
+export interface ImageChatPromptNode {
+	type: "image";
+	data: {
+		/** The image URL as either a fully qualified URL to an image file or a base64-encoded data URL */
+		url: string;
+	};
+}
+
+export interface ToolCallChatPromptNode {
+	type: "tool_call";
+	/** The tool call data */
+	data: SuccessToolCall | ErrorToolCall;
+}
+
+export type ChatPromptContentNode =
+	| TextChatPromptNode
+	| ImageChatPromptNode
+	| ToolCallChatPromptNode;
+
+export type ChatPromptMessageRole = "system" | "assistant" | "user";
+
+export interface ChatPromptMessage {
+	role: ChatPromptMessageRole;
+	content: ChatPromptContentNode[];
+}
+
+export interface ChatPromptBuilder {
+	/** Returns the system prompt as a string  */
+	getSystemPrompt(): string;
+	/** Overrides the system prompt */
+	setSystemPrompt(prompt: string): void;
+	/** Prepends text to the system prompt */
+	prependToSystemPrompt(message: string): void;
+	/** Appends text to the system prompt */
+	appendToSystemPrompt(message: string): void;
+	/** Returns the prompt messages */
+	getMessages(): ChatPromptMessage[];
+	/**
+	 * Appends a new message to the prompt messages
+	 *
+	 * This is usually used to build a conversation
+	 */
+	appendMessage(message: ChatPromptMessage): void;
+}
 
 export declare namespace LLM {
 	export type Capability = "tool_calling" | "structured_outputs";
@@ -16,7 +69,7 @@ export declare namespace LLM {
 
 	export interface StreamTextArgs {
 		tools: Tool[];
-		messages: PromptMessage[];
+		messages: ChatPromptMessage[];
 		onText: (text: string) => void;
 		onToolCall: (opts: ToolCall) => void;
 	}
