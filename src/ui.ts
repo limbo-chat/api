@@ -16,4 +16,23 @@ export declare namespace ui {
 
 	/** Unregisters a markdown component */
 	export function unregisterMarkdownElement(elementId: string): void;
+
+	export interface ChatNodeComponentProps<TData = Record<string, unknown>> {
+		data: TData;
+	}
+
+	export type ChatNodeComponent<TData = Record<string, unknown>> = react.FC<
+		ChatNodeComponentProps<TData>
+	>;
+
+	export interface ChatNode<TData = Record<string, unknown>> {
+		/** The ID of the chat node */
+		id: string;
+		/** The component to render for the chat node */
+		component: ChatNodeComponent<TData>;
+	}
+
+	export function registerChatNode(chatNode: ChatNode): void;
+
+	export function unregisterChatNode(chatNodeId: string): void;
 }

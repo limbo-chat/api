@@ -1,37 +1,9 @@
-import type { ErrorToolCall, SuccessToolCall } from "./tools.js";
-
-export interface TextChatPromptNode {
-	type: "text";
-	data: {
-		/** The text content */
-		content: string;
-	};
-}
-
-export interface ImageChatPromptNode {
-	type: "image";
-	data: {
-		/** The image URL as either a fully qualified URL to an image file or a base64-encoded data URL */
-		url: string;
-	};
-}
-
-export interface ToolCallChatPromptNode {
-	type: "tool_call";
-	/** The tool call data */
-	data: SuccessToolCall | ErrorToolCall;
-}
-
-export type ChatPromptContentNode =
-	| TextChatPromptNode
-	| ImageChatPromptNode
-	| ToolCallChatPromptNode;
+import type { ChatMessageNode } from "./chats.js";
 
 export type ChatPromptMessageRole = "system" | "assistant" | "user";
-
 export interface ChatPromptMessage {
 	role: ChatPromptMessageRole;
-	content: ChatPromptContentNode[];
+	content: ChatMessageNode[];
 }
 
 export interface ChatPromptBuilder {
@@ -51,6 +23,10 @@ export interface ChatPromptBuilder {
 	 * This is usually used to build a conversation
 	 */
 	appendMessage(message: ChatPromptMessage): void;
+	/** Replaces a message */
+	replaceMessage(index: number, message: ChatPromptMessage): void;
+	/** Inserts a message at the specified index */
+	deleteMessage(index: number): void;
 }
 
 export declare namespace LLM {
