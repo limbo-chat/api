@@ -1,6 +1,7 @@
 import type * as react from "react";
 import type * as typebox from "@sinclair/typebox";
 import type { IconLike } from "./common.js";
+import type { MessageHandle } from "./chats.js";
 
 export type AnyToolCallArgs = Record<string, unknown>;
 
@@ -47,6 +48,11 @@ export interface ToolIconRendererProps<TArgs = AnyToolCallArgs> {
 
 export type ToolIconRenderer<TArgs = AnyToolCallArgs> = react.FC<ToolIconRendererProps<TArgs>>;
 
+export interface ToolExecuteArgs<TArgs = AnyToolCallArgs> {
+	args: TArgs;
+	message: MessageHandle;
+}
+
 export interface Tool<TInputSchema extends typebox.TSchema = any> {
 	/** The ID of the tool */
 	id: string;
@@ -58,7 +64,7 @@ export interface Tool<TInputSchema extends typebox.TSchema = any> {
 	schema: TInputSchema;
 
 	/** The function that executes the tool */
-	execute: (args: typebox.Static<TInputSchema>) => string | Promise<string>;
+	execute: (args: ToolExecuteArgs<typebox.Static<TInputSchema>>) => string | Promise<string>;
 
 	/**
 	 * The icon to render for the tool.
