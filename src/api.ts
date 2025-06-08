@@ -3,7 +3,7 @@ import type { commands } from "./commands.js";
 import type { models } from "./models.js";
 import type { settings } from "./settings.js";
 import type { tools } from "./tools.js";
-import type { chats } from "./chat.js";
+import type { chats } from "./chats.js";
 import type { ui } from "./ui.js";
 
 export interface API {

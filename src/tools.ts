@@ -1,6 +1,7 @@
 import type * as react from "react";
 import type * as typebox from "@sinclair/typebox";
 import type { IconLike } from "./common.js";
+import type { MessageHandle } from "./chats.js";
 
 export type AnyToolCallArgs = Record<string, unknown>;
 
@@ -49,6 +50,7 @@ export type ToolIconRenderer<TArgs = AnyToolCallArgs> = react.FC<ToolIconRendere
 
 export interface ToolExecuteArgs<TArgs = AnyToolCallArgs> {
 	args: TArgs;
+	message: MessageHandle;
 	abortSignal: AbortSignal;
 }
 

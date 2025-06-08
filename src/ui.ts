@@ -1,4 +1,5 @@
 import type * as react from "react";
+import type { ChatMessageNode } from "./chats.js";
 
 export declare namespace ui {
 	export type MarkdownComponentProps = Record<string, unknown>;
@@ -16,4 +17,21 @@ export declare namespace ui {
 
 	/** Unregisters a markdown component */
 	export function unregisterMarkdownElement(elementId: string): void;
+
+	export interface ChatNodeComponentProps {
+		node: ChatMessageNode;
+	}
+
+	export type ChatNodeComponent = react.FC<ChatNodeComponentProps>;
+
+	export interface ChatNode {
+		/** The ID of the chat node */
+		id: string;
+		/** The component to render for the chat node */
+		component: ChatNodeComponent;
+	}
+
+	export function registerChatNode(chatNode: ChatNode): void;
+
+	export function unregisterChatNode(chatNodeId: string): void;
 }
