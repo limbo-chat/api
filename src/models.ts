@@ -43,7 +43,7 @@ export declare namespace LLM {
 		arguments: Record<string, unknown>;
 	}
 
-	export interface StreamTextArgs {
+	export interface ChatArgs {
 		tools: Tool[];
 		messages: ChatPromptMessage[];
 		onText: (text: string) => void;
@@ -64,8 +64,8 @@ export interface LLM {
 	/* The capabilities of the LLM */
 	capabilities: LLM.Capability[];
 
-	/* a function to stream text from the LLM */
-	streamText: (opts: LLM.StreamTextArgs) => void | Promise<void>;
+	/* a function to handle the main chat loop */
+	chat: (opts: LLM.ChatArgs) => void | Promise<void>;
 }
 
 export declare namespace models {
