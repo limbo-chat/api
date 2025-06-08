@@ -1,6 +1,7 @@
-import type { ChatMessageNode } from "./chats.js";
+import type { ChatMessageNode, MessageHandle } from "./chats.js";
 
 export type ChatPromptMessageRole = "system" | "assistant" | "user";
+
 export interface ChatPromptMessage {
 	role: ChatPromptMessageRole;
 	content: ChatMessageNode[];
@@ -43,7 +44,8 @@ export declare namespace LLM {
 		arguments: Record<string, unknown>;
 	}
 
-	export interface StreamTextArgs {
+	export interface ChatArgs {
+		message: MessageHandle;
 		tools: Tool[];
 		messages: ChatPromptMessage[];
 		onText: (text: string) => void;
@@ -65,7 +67,7 @@ export interface LLM {
 	capabilities: LLM.Capability[];
 
 	/* a function to stream text from the LLM */
-	streamText: (opts: LLM.StreamTextArgs) => void | Promise<void>;
+	streamText: (opts: LLM.ChatArgs) => void | Promise<void>;
 }
 
 export declare namespace models {

@@ -16,6 +16,28 @@ export interface ChatMessage {
 	createdAt: string;
 }
 
+export interface MessageHandle {
+	/** Returns the node at the specified index */
+	getNode(index: number): ChatMessageNode | undefined;
+	/** Returns the nodes */
+	getNodes(): ChatMessageNode[];
+	/** Adds a node to the start */
+	prependNode(node: ChatMessageNode): void;
+	/** Adds a node to the end */
+	appendNode(node: ChatMessageNode): void;
+	/** Replaces a node */
+	replaceNode(
+		oldNode: ChatMessageNode,
+		newNodeOrNodes: ChatMessageNode | ChatMessageNode[]
+	): void;
+	/** Replaces a node at the specified index */
+	replaceNodeAt(index: number, newNodeOrNodes: ChatMessageNode | ChatMessageNode[]): void;
+	/** Removes a node */
+	removeNode(node: ChatMessageNode): void;
+	/** Removes a node at the specified index */
+	removeNodeAt(index: number): void;
+}
+
 export declare namespace chats {
 	export function get(chatId: string): Promise<Chat | null>;
 
