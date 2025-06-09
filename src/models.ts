@@ -95,6 +95,7 @@ export declare namespace LLM {
 
 	export interface ChatArgs {
 		message: MessageHandle;
+		abortSignal: AbortSignal;
 		tools: Tool[];
 		messages: ChatPromptMessage[];
 		onText: (text: string) => void;

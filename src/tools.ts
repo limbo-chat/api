@@ -51,6 +51,7 @@ export type ToolIconRenderer<TArgs = AnyToolCallArgs> = react.FC<ToolIconRendere
 export interface ToolExecuteArgs<TArgs = AnyToolCallArgs> {
 	args: TArgs;
 	message: MessageHandle;
+	abortSignal: AbortSignal;
 }
 
 export interface Tool<TInputSchema extends typebox.TSchema = any> {
