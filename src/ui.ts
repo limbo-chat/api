@@ -34,4 +34,22 @@ export declare namespace ui {
 	export function registerChatNode(chatNode: ChatNode): void;
 
 	export function unregisterChatNode(chatNodeId: string): void;
+
+	export interface ChatPanelComponentProps {
+		data: Record<string, unknown>;
+	}
+
+	export type ChatPanelComponent = react.FC<ChatPanelComponentProps>;
+
+	export interface ChatPanel {
+		/** The ID of the chat panel */
+		id: string;
+
+		/** The component to render for the chat panel */
+		component: ChatPanelComponent;
+	}
+
+	export function registerChatPanel(chatPanel: ChatPanel): void;
+
+	export function unregisterChatPanel(chatPanelId: string): void;
 }

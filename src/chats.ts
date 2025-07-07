@@ -74,5 +74,15 @@ export declare namespace chats {
 		}
 	}
 
-	export function getMessages(opts: getMessages.Options): Promise<ChatMessage[]>;
+	export function getMessages(options: getMessages.Options): Promise<ChatMessage[]>;
+
+	export namespace showPanel {
+		export interface Options {
+			chatId: string;
+			panelId: string;
+			data?: Record<string, unknown>;
+		}
+	}
+
+	export function showPanel(options: showPanel.Options): void;
 }
