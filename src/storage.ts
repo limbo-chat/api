@@ -9,7 +9,9 @@ export declare namespace storage {
 	export function set(key: string, value: JsonValue): Promise<void>;
 
 	/** Gets a value from storage */
-	export function get<TValue extends JsonValue>(key: string): Promise<TValue | undefined>;
+	export function get<TValue extends JsonValue = JsonValue>(
+		key: string
+	): Promise<TValue | undefined>;
 
 	/** Removes a value from storage */
 	export function remove<T>(key: string): Promise<void>;
