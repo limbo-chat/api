@@ -7,8 +7,10 @@ export type AppIcon = "info" | "warning" | "search" | "check" | "file" | "folder
 
 export type IconLike = AppIcon | CustomImage;
 
-export type JsonObject = {
-	[key: string]: string | number | boolean | JsonObject | JsonArray;
-};
+export type JsonValue = string | number | boolean | null | JsonArray | JsonObject;
 
-export interface JsonArray extends Array<string | number | boolean | JsonObject | JsonArray> {}
+export interface JsonArray extends Array<JsonValue> {}
+
+export interface JsonObject {
+	[key: string]: JsonValue;
+}
