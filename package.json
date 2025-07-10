@@ -1,5 +1,5 @@
 {
-	"name": "limbo",
+	"name": "@limbo/api",
 	"type": "module",
 	"version": "0.0.1",
 	"keywords": [
@@ -17,12 +17,18 @@
 	],
 	"types": "./dist/index.d.ts",
 	"peerDependencies": {
-		"@sinclair/typebox": "^0.34.33",
-		"@types/react": "^19.0.12"
+		"react": "^19.1.0",
+		"@types/react": "^19.1.6",
+		"@sinclair/typebox": "^0.34.33"
+	},
+	"optionalDependencies": {
+		"react": "^19.1.0",
+		"@types/react": "^19.1.6",
+		"@sinclair/typebox": "^0.34.33"
 	},
 	"devDependencies": {
 		"@sinclair/typebox": "^0.34.33",
-		"@types/react": "^19.1.5",
+		"@types/react": "^19.1.6",
 		"prettier": "^3.5.3",
 		"typescript": "^5.8.2"
 	}
