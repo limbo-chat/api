@@ -17,4 +17,5 @@ export interface API {
 	models: typeof models;
 	tools: typeof tools;
 	chats: typeof chats;
+	ui: typeof ui;
 }
