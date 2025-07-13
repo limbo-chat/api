@@ -1,6 +1,9 @@
+export type NotificationLevel = "info" | "warning" | "error";
+
 export interface Notification {
-	type: "info" | "error" | "warning";
-	message: string;
+	level: NotificationLevel;
+	title: string;
+	message?: string;
 }
 
 export declare namespace notifications {
