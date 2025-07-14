@@ -1,7 +1,7 @@
 import type * as react from "react";
 import type * as typebox from "@sinclair/typebox";
-import type { ImageLike } from "./common.js";
-import type { MessageHandle } from "./chats.js";
+import type { ImageLike } from "../common.js";
+import type { MessageHandle } from "../chat.js";
 
 export type AnyToolCallArgs = Record<string, unknown>;
 

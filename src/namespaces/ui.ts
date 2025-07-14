@@ -1,6 +1,6 @@
 import type * as react from "react";
-import type { ChatMessageNode } from "./chats.js";
-import type { JsonObject } from "./common.js";
+import type { ChatMessageNode } from "../chat.js";
+import type { JsonObject } from "../common.js";
 
 export declare namespace ui {
 	export type MarkdownComponentProps = Record<string, unknown>;

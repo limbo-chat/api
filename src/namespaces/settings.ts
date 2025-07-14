@@ -1,4 +1,4 @@
-import type { LLM } from "./models.js";
+import type { LLM } from "../llm.js";
 
 interface BaseSetting {
 	/** The unique ID of the setting */

@@ -1,4 +1,4 @@
-import type { ChatGeneration } from "./chat-generation.js";
+import type { ChatGeneration } from "./chat.js";
 
 export interface OnChatCreatedArgs {
 	chatId: string;
