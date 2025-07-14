@@ -1,17 +1,7 @@
-import type { ChatPromptBuilder } from "./index.js";
+import type { ChatGeneration } from "./chat-generation.js";
 
 export interface OnChatCreatedArgs {
 	chatId: string;
-}
-
-export interface OnPrepareChatPromptArgs {
-	chatId: string;
-	promptBuilder: ChatPromptBuilder;
-}
-
-export interface OnTransformChatPromptArgs {
-	chatId: string;
-	promptBuilder: ChatPromptBuilder;
 }
 
 export interface Plugin {
@@ -30,9 +20,15 @@ export interface Plugin {
 	/** Called when multiple chats are deleted */
 	onChatsDeleted?(chatIds: string[]): void | Promise<void>;
 
-	/** Called once at the beginning of a chat loop */
-	onPrepareChatPrompt?(args: OnPrepareChatPromptArgs): void | Promise<void>;
+	/** Called at the beginning of a chat generation */
+	onBeforeChatGeneration?(chatGeneration: ChatGeneration): void | Promise<void>;
 
-	/** Called before each iteration of a chat loop */
-	onTransformChatPrompt?(args: OnTransformChatPromptArgs): void | Promise<void>;
+	/** Called before each iteration of a chat generation */
+	onBeforeChatIteration?(chatGeneration: ChatGeneration): void | Promise<void>;
+
+	/** Called after each iteration of a chat generation */
+	onAfterChatIteration?(chatGeneration: ChatGeneration): void | Promise<void>;
+
+	/** Called at the end of a chat generation */
+	onAfterChatGeneration?(chatGeneration: ChatGeneration): void | Promise<void>;
 }
