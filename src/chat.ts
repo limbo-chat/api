@@ -1,10 +1,4 @@
-import type { LLM } from "./llm.js";
-
-export interface Chat {
-	id: string;
-	name: string;
-	createdAt: string;
-}
+export type ChatMessageRole = "system" | "assistant" | "user";
 
 export interface ChatMessageNode {
 	type: string;
@@ -12,60 +6,20 @@ export interface ChatMessageNode {
 }
 
 export interface ChatMessage {
-	id: string;
-	role: "user" | "assistant";
-	content: ChatMessageNode[];
-	createdAt: string;
-}
-
-export interface MessageHandle {
-	/** Returns the node at the specified index */
-	getNode(index: number): ChatMessageNode | undefined;
-
-	/** Returns the nodes */
-	getNodes(): ChatMessageNode[];
-
-	/** Adds a node to the start */
-	prependNode(node: ChatMessageNode): void;
-
-	/** Adds a node to the end */
-	appendNode(node: ChatMessageNode): void;
-
-	/** Replaces a node */
-	replaceNode(
-		oldNode: ChatMessageNode,
-		newNodeOrNodes: ChatMessageNode | ChatMessageNode[]
-	): void;
-
-	/** Replaces a node at the specified index */
-	replaceNodeAt(index: number, newNodeOrNodes: ChatMessageNode | ChatMessageNode[]): void;
-
-	/** Removes a node */
-	removeNode(node: ChatMessageNode): void;
-
-	/** Removes a node at the specified index */
-	removeNodeAt(index: number): void;
-}
-
-export type ChatPromptMessageRole = "system" | "assistant" | "user";
-
-export interface ChatPromptMessage {
-	role: ChatPromptMessageRole;
-	content: ChatMessageNode[];
-}
-
-export interface ChatMessageBuilder {
 	/** Sets the role of the message */
-	setRole(role: ChatPromptMessageRole): void;
+	setRole(role: ChatMessageRole): void;
 
 	/** Returns the role of the message */
-	getRole(): ChatPromptMessageRole;
+	getRole(): ChatMessageRole;
 
 	/** Returns the node at the specified index  */
 	getNode(index: number): ChatMessageNode | undefined;
 
 	/** Returns all of the nodes */
 	getNodes(): ChatMessageNode[];
+
+	/** Sets the nodes */
+	setNodes(nodes: ChatMessageNode[]): void;
 
 	/** Adds a node to the beginning */
 	prependNode(node: ChatMessageNode): void;
@@ -95,51 +49,36 @@ export interface ChatMessageBuilder {
 	clearNodes(): void;
 }
 
-export interface ChatPromptBuilder {
-	/** Returns the system prompt as a string  */
-	getSystemPrompt(): string;
-
-	/** Overrides the system prompt */
-	setSystemPrompt(prompt: string): void;
-
-	/** Prepends text to the system prompt */
-	prependToSystemPrompt(message: string): void;
-
-	/** Appends text to the system prompt */
-	appendToSystemPrompt(message: string): void;
-
+export interface ChatPrompt {
 	/** Returns the message at the specified index */
-	getMessage(index: number): ChatMessageBuilder | undefined;
+	getMessage(index: number): ChatMessage | undefined;
 
 	/** Returns the prompt messages */
-	getMessages(): ChatMessageBuilder[];
+	getMessages(): ChatMessage[];
+
+	/** Sets the messages */
+	setMessages(messages: ChatMessage[]): void;
 
 	/** Inserts a message at a certain index */
-	insertMessage(
-		index: number,
-		newMessageOrMessages: ChatMessageBuilder | ChatMessageBuilder[]
-	): void;
+	insertMessage(index: number, newMessageOrMessages: ChatMessage | ChatMessage[]): void;
 
 	/** Adds a message to the beginning */
-	prependMessage(message: ChatMessageBuilder): void;
+	prependMessage(message: ChatMessage): void;
 
 	/** Adds a message to the end */
-	appendMessage(message: ChatMessageBuilder): void;
+	appendMessage(message: ChatMessage): void;
 
 	/** Replaces a message */
 	replaceMessage(
-		oldMessage: ChatMessageBuilder,
-		newMessageOrMessages: ChatMessageBuilder | ChatMessageBuilder[]
+		oldMessage: ChatMessage,
+		newMessageOrMessages: ChatMessage | ChatMessage[]
 	): void;
 
 	/** Replaces a message at the specified index */
-	replaceMessageAt(
-		index: number,
-		newMessageOrMessages: ChatMessageBuilder | ChatMessageBuilder[]
-	): void;
+	replaceMessageAt(index: number, newMessageOrMessages: ChatMessage | ChatMessage[]): void;
 
 	/** Removes a message */
-	removeMessage(message: ChatMessageBuilder): void;
+	removeMessage(message: ChatMessage): void;
 
 	/** Removes a message at the specified index */
 	removeMessageAt(index: number): void;
@@ -147,26 +86,6 @@ export interface ChatPromptBuilder {
 	/** Clears all messages */
 	clearMessages(): void;
 
-	/** Creates a new message builder */
-	createMessage(message: ChatPromptMessage): ChatMessageBuilder;
-}
-
-export interface ChatGeneration {
-	/** The LLM used for this chat generation */
-	llm: LLM;
-
-	/** The assistant message for this chat generation */
-	assistantMessage: MessageHandle;
-
-	/** The prompt used for this chat generation */
-	prompt: ChatPromptBuilder;
-
-	/** The chat ID of this generation */
-	chatId: string;
-
-	/** The current iteration number, starting from 0 */
-	iteration: number;
-
-	/** Whether this is the final iteration of the chat generation */
-	isFinalIteration: boolean;
+	/** Creates a new message */
+	createMessage(role: ChatMessageRole): ChatMessage;
 }

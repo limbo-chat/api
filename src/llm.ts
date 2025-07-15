@@ -1,4 +1,4 @@
-import type { ChatPromptMessage, MessageHandle } from "./chat.js";
+import type { ChatMessage, ChatPrompt } from "./chat.js";
 
 export declare namespace LLM {
 	export type Capability = "tool_calling" | "structured_outputs";
@@ -15,10 +15,10 @@ export declare namespace LLM {
 	}
 
 	export interface ChatArgs {
-		message: MessageHandle;
-		abortSignal: AbortSignal;
 		tools: Tool[];
-		messages: ChatPromptMessage[];
+		prompt: ChatPrompt;
+		assistantMessage: ChatMessage;
+		abortSignal: AbortSignal;
 		onText: (text: string) => void;
 		onToolCall: (opts: ToolCall) => void;
 	}
@@ -38,5 +38,5 @@ export interface LLM {
 	capabilities: LLM.Capability[];
 
 	/* a function to handle the main chat loop */
-	chat: (opts: LLM.ChatArgs) => void | Promise<void>;
+	chat: (opts: LLM.ChatArgs) => Promise<void>;
 }

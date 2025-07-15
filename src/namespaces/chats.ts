@@ -1,6 +1,19 @@
-import type { Chat, ChatMessage } from "../chat.js";
+import type { ChatMessageNode, ChatMessageRole } from "../chat.js";
 
 export declare namespace chats {
+	export interface Chat {
+		id: string;
+		name: string;
+		createdAt: string;
+	}
+
+	export interface ChatMessage {
+		id: string;
+		role: ChatMessageRole;
+		content: ChatMessageNode[];
+		createdAt: string;
+	}
+
 	export function get(chatId: string): Promise<Chat | null>;
 
 	export function rename(chatId: string, newName: string): Promise<void>;
