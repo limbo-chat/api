@@ -1,13 +1,8 @@
 import type { ChatMessage, ChatPrompt } from "./chat.js";
+import type { ToolDefinition } from "./tool.js";
 
 export declare namespace LLM {
 	export type Capability = "tool_calling" | "structured_outputs";
-
-	export interface Tool {
-		id: string;
-		description: string;
-		schema: object;
-	}
 
 	export interface ToolCall {
 		toolId: string;
@@ -15,7 +10,7 @@ export declare namespace LLM {
 	}
 
 	export interface ChatArgs {
-		tools: Tool[];
+		tools: ToolDefinition[];
 		prompt: ChatPrompt;
 		assistantMessage: ChatMessage;
 		abortSignal: AbortSignal;

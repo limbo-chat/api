@@ -3,6 +3,12 @@ import type * as typebox from "@sinclair/typebox";
 import type { ImageLike } from "./common.js";
 import type { ChatMessage } from "./chat.js";
 
+export interface ToolDefinition {
+	id: string;
+	description: string;
+	schema: object;
+}
+
 export type AnyToolCallArgs = Record<string, unknown>;
 
 interface BaseToolCall<TArgs = AnyToolCallArgs> {
