@@ -75,6 +75,7 @@ export type AppIcon =
 	| "activity"
 	| "hammer"
 	| "credit-card"
+	| "paperclip"
 	// status indicators
 	| "success"
 	| "error"
