@@ -47,6 +47,9 @@ export interface ChatMessage {
 
 	/** Clears all nodes */
 	clearNodes(): void;
+
+	/** Creates a deep copy of the message */
+	clone(): ChatMessage;
 }
 
 export interface ChatPrompt {
@@ -88,4 +91,7 @@ export interface ChatPrompt {
 
 	/** Creates a new message */
 	createMessage(role: ChatMessageRole): ChatMessage;
+
+	/** Creates a deep copy of the prompt */
+	clone(): ChatPrompt;
 }

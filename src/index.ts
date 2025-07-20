@@ -1,4 +1,5 @@
 export * from "./common.js";
+export * from "./notification.js";
 export * from "./llm.js";
 export * from "./chat.js";
 export * from "./tool.js";

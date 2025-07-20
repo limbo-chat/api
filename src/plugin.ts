@@ -7,11 +7,14 @@ export interface OnChatCreatedArgs {
 }
 
 export interface ChatIteration {
-	/** The index of the chat iteration */
+	/** The index of the iteration */
 	index: number;
 
 	/** The metadata returned by the LLM */
 	// llmMetadata: Record<string, unknown>;
+
+	/** The prompt used for the iteration */
+	prompt: ChatPrompt;
 
 	/** The tool calls made during the iteration */
 	toolCalls: SettledToolCall[];
@@ -85,9 +88,6 @@ export interface OnAfterChatIterationArgs {
 
 	/** The current iteration */
 	iteration: ChatIteration;
-
-	/** Whether this is the final iteration of the chat generation */
-	isFinalIteration: boolean;
 
 	/**
 	 * The shared context across the entire chat generation.

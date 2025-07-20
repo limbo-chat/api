@@ -1,8 +1,14 @@
 import type * as react from "react";
 import type { ChatMessageNode } from "../chat.js";
 import type { JsonObject } from "../common.js";
+import type { Notification } from "../notification.js";
 
 export declare namespace ui {
+	/**
+	 * Shows a notification to the user
+	 */
+	export function showNotification(notification: Notification): void;
+
 	export type MarkdownComponentProps = Record<string, unknown>;
 	export type MarkdownComponent = react.FC<MarkdownComponentProps>;
 
