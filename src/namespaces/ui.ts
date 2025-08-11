@@ -73,10 +73,22 @@ export declare namespace ui {
 
 	export function showChatPanel(options: showChatPanel.Options): void;
 
-	export namespace showConfirmAlert {
+	export namespace showConfirmDialog {
 		export interface Options {
+			/** The title of the confirmation dialog */
 			title: string;
-			description: string;
+
+			/** The description of the confirmation dialog */
+			description?: string;
+
+			/** The label for the confirm button */
+			confirmLabel?: string;
+
+			/** The label for the cancel button */
+			cancelLabel?: string;
+
+			/** The style of the confirmation dialog */
+			style?: "default" | "destructive";
 		}
 	}
 
@@ -85,5 +97,5 @@ export declare namespace ui {
 	 *
 	 * @returns A promise that resolves to true if the user confirmed, or false if they deny.
 	 */
-	export function showConfirmDialog(options: showConfirmAlert.Options): Promise<boolean>;
+	export function showConfirmDialog(options: showConfirmDialog.Options): Promise<boolean>;
 }
