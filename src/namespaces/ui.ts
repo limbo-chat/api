@@ -72,4 +72,18 @@ export declare namespace ui {
 	}
 
 	export function showChatPanel(options: showChatPanel.Options): void;
+
+	export namespace showConfirmAlert {
+		export interface Options {
+			title: string;
+			description: string;
+		}
+	}
+
+	/**
+	 * Shows a confirmation dialog to the user, allowing them to confirm or deny a request.
+	 *
+	 * @returns A promise that resolves to true if the user confirmed, or false if they deny.
+	 */
+	export function showConfirmDialog(options: showConfirmAlert.Options): Promise<boolean>;
 }
