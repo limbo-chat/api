@@ -6,3 +6,4 @@ export * from "./tools.js";
 export * from "./models.js";
 export * from "./chats.js";
 export * from "./ui.js";
+export * from "./auth.js";

@@ -6,6 +6,7 @@ import type { database } from "./namespaces/database.js";
 import type { tools } from "./namespaces/tools.js";
 import type { chats } from "./namespaces/chats.js";
 import type { ui } from "./namespaces/ui.js";
+import type { auth } from "./namespaces/auth.js";
 
 export interface API {
 	commands: typeof commands;
@@ -16,4 +17,5 @@ export interface API {
 	tools: typeof tools;
 	chats: typeof chats;
 	ui: typeof ui;
+	auth: typeof auth;
 }
