@@ -1,9 +1,7 @@
-import type { ChatMessage, ChatPrompt } from "./chat.js";
+import type { ChatMessage, ChatMessageNode, ChatPrompt } from "./chat.js";
 import type { ToolDefinition } from "./tool.js";
 
 export declare namespace LLM {
-	export type Capability = "tool_calling" | "structured_outputs";
-
 	export interface ToolCall {
 		toolId: string;
 		arguments: Record<string, unknown>;
@@ -30,7 +28,10 @@ export interface LLM {
 	description: string;
 
 	/* The capabilities of the LLM */
-	capabilities: LLM.Capability[];
+	capabilities: string[];
+
+	/* a function to check if the LLM understands a specific content type. */
+	understands: (node: ChatMessageNode) => boolean;
 
 	/* a function to handle the main chat loop */
 	chat: (opts: LLM.ChatArgs) => Promise<void>;

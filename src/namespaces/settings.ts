@@ -37,7 +37,7 @@ export interface BooleanSetting extends BaseSetting {
 
 export interface LLMSetting extends BaseSetting {
 	type: "llm";
-	capabilities?: LLM.Capability[];
+	capabilities?: string[];
 }
 
 export type Setting = TextSetting | BooleanSetting | LLMSetting;
