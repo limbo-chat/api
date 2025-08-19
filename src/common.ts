@@ -60,6 +60,8 @@ export type AppIcon =
 	| "video"
 	| "home"
 	| "settings"
+	| "chat"
+	| "sliders"
 	| "terminal"
 	| "code"
 	| "bug"
