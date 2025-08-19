@@ -20,8 +20,6 @@ export interface ChatIteration {
 	toolCalls: SettledToolCall[];
 }
 
-export type ChatGenerationContext = Map<string, unknown>;
-
 export interface ChatGeneration {
 	/** The chat ID of this generation */
 	chatId: string;
@@ -43,18 +41,6 @@ export interface OnBeforeChatGenerationArgs {
 	/** The current generation */
 	generation: ChatGeneration;
 
-	/**
-	 * The shared context across the entire chat generation.
-	 *
-	 * This is shared between all plugins, so there could very well be naming conflicts.
-	 * It is recommended to use a unique prefix for the keys.
-	 *
-	 * @example
-	 * context.set("my-plugin:key", "value");
-	 *
-	 */
-	context: ChatGenerationContext;
-
 	/** The abort signal for the chat generation */
 	abortSignal: AbortSignal;
 }
@@ -65,18 +51,6 @@ export interface OnBeforeChatIterationArgs {
 
 	/** The current iteration */
 	iteration: ChatIteration;
-
-	/**
-	 * The shared context across the entire chat generation.
-	 *
-	 * This is shared between all plugins, so there could very well be naming conflicts.
-	 * It is recommended to use a unique prefix for the keys.
-	 *
-	 * @example
-	 * context.set("my-plugin:key", "value");
-	 *
-	 */
-	context: ChatGenerationContext;
 
 	/** The abort signal for this chat generation */
 	abortSignal: AbortSignal;
@@ -89,18 +63,6 @@ export interface OnAfterChatIterationArgs {
 	/** The current iteration */
 	iteration: ChatIteration;
 
-	/**
-	 * The shared context across the entire chat generation.
-	 *
-	 * This is shared between all plugins, so there could very well be naming conflicts.
-	 * It is recommended to use a unique prefix for the keys.
-	 *
-	 * @example
-	 * context.set("my-plugin:key", "value");
-	 *
-	 */
-	context: ChatGenerationContext;
-
 	/** The abort signal for this chat generation */
 	abortSignal: AbortSignal;
 }
@@ -108,18 +70,6 @@ export interface OnAfterChatIterationArgs {
 export interface OnAfterChatGenerationArgs {
 	/** The current generation */
 	generation: ChatGeneration;
-
-	/**
-	 * The shared context across the entire chat generation.
-	 *
-	 * This is shared between all plugins, so there could very well be naming conflicts.
-	 * It is recommended to use a unique prefix for the keys.
-	 *
-	 * @example
-	 * context.set("my-plugin:key", "value");
-	 *
-	 */
-	context: ChatGenerationContext;
 }
 
 export interface Plugin {

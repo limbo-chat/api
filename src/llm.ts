@@ -26,7 +26,7 @@ export interface LLM {
 	/* the name of the LLM */
 	name: string;
 
-	/* a description about the LLM. Qualties, things it's good at... */
+	/* a description about the LLM */
 	description: string;
 
 	/* The capabilities of the LLM */
