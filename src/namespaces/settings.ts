@@ -72,7 +72,7 @@ export interface EnumSettingOption {
 }
 
 export interface EnumSetting extends BaseSetting {
-	type: "list";
+	type: "enum";
 
 	/** The placeholder text to show */
 	placeholder?: string;
