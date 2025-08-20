@@ -26,6 +26,8 @@ export type AppIcon =
 	| "menu"
 	| "copy"
 	| "check"
+	| "increment"
+	| "decrement"
 	| "collapse"
 	| "expand"
 	| "reply"
