@@ -1,4 +1,4 @@
-import type { LLM } from "../llm.js";
+import type { JsonValue } from "../common.js";
 
 interface BaseSetting {
 	/** The unique ID of the setting */
@@ -13,8 +13,13 @@ interface BaseSetting {
 
 export interface TextSetting extends BaseSetting {
 	type: "text";
+
+	/** The default value */
 	defaultValue?: string;
+
+	/** The placeholder text to show */
 	placeholder?: string;
+
 	/**
 	 * The type of text input to display
 	 *
@@ -35,12 +40,58 @@ export interface BooleanSetting extends BaseSetting {
 	defaultValue?: boolean;
 }
 
+export interface NumberSetting extends BaseSetting {
+	type: "number";
+
+	/** The placeholder text to show */
+	placeholder?: string;
+
+	/** The default value */
+	defaultValue?: number;
+
+	/** The minimum allowed value */
+	min?: number;
+
+	/** The maximum allowed value */
+	max?: number;
+
+	/**
+	 * The step size for incrementing/decrementing
+	 *
+	 * @default 1
+	 */
+	stepSize?: number;
+}
+
+export interface EnumSettingOption {
+	/** The unique value of the option */
+	value: string;
+
+	/** The label to display for the option */
+	label: string;
+}
+
+export interface EnumSetting extends BaseSetting {
+	type: "list";
+
+	/** The placeholder text to show */
+	placeholder?: string;
+
+	/** The default value */
+	defaultValue?: string;
+
+	/** The available options */
+	options: EnumSettingOption[];
+}
+
 export interface LLMSetting extends BaseSetting {
 	type: "llm";
+
+	/** The capabilities the LLM must have */
 	capabilities?: string[];
 }
 
-export type Setting = TextSetting | BooleanSetting | LLMSetting;
+export type Setting = TextSetting | BooleanSetting | NumberSetting | EnumSetting | LLMSetting;
 
 export declare namespace settings {
 	/**
@@ -56,7 +107,5 @@ export declare namespace settings {
 	/**
 	 * Gets a setting value for the plugin
 	 */
-	export function get<T extends string | boolean = string | boolean>(
-		settingId: string
-	): T | undefined;
+	export function get<T extends JsonValue>(settingId: string): T | undefined;
 }
