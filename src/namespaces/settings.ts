@@ -25,10 +25,11 @@ export interface TextSetting extends BaseSetting {
 	 *
 	 * string: single line text input
 	 * password: single line text input with protected text
+	 * multiline: multi-line text area
 	 *
 	 * @default string
 	 */
-	variant?: "string" | "password";
+	variant?: "string" | "password" | "multiline";
 }
 
 export interface BooleanSetting extends BaseSetting {
